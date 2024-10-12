@@ -30,21 +30,21 @@ public class LoginFormController {
     @PostMapping
     public ResponseEntity<String> isValidUser(@RequestBody LoginEntry entry) {
         String response = loginService.login(entry.getEmail(),entry.getPassword());
-        if (response != null) {
+        if (response.equals("Login Successful!")) {
             return  new ResponseEntity<>(response,HttpStatus.OK);
         }
         else{
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
         }
     }
     @PutMapping("/{id}")
     public ResponseEntity<String> ResetPassword(@PathVariable ObjectId id, @RequestBody LoginEntry updatedEntry) {
-        String response = loginService.ForgotPassword(updatedEntry.getEmail(), updatedEntry.getPassword());
-        if (response != null) {
+        String response = loginService.ForgotPassword(id,updatedEntry.getEmail(), updatedEntry.getPassword());
+        if (response.equals("New Password set successfully")) {
             return new ResponseEntity<>(response,HttpStatus.OK);
         }
         else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
         }
     }
     

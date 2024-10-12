@@ -51,7 +51,7 @@ public class SignupFormController {
     @PostMapping
     public ResponseEntity<String> createUser(@RequestBody UserEntry newUser ){
         String response = signupService.saveEntry(newUser);
-        if (response != null) {
+        if (response.equals("SignUp Successful!")) {
             return new ResponseEntity<>(response,HttpStatus.CREATED);
         }
         else{

@@ -17,5 +17,5 @@ public class AppointmentEntry {
     private String email;
     private String contactNo;
     private String healthIssue;
-    
+
 }

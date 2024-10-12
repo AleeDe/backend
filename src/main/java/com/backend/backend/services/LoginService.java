@@ -1,5 +1,6 @@
 package com.backend.backend.services;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,9 +24,9 @@ public class LoginService {
         }
         return "User not found!";
     }
-    public String ForgotPassword(String email,String newPassword){
-        UserEntry user = userRepository.findByEmail(email);
-        if (user != null) {
+    public String ForgotPassword(ObjectId id,String email,String newPassword){
+        UserEntry user = userRepository.findById(id).orElse(null);
+        if (user != null && user.getEmail().equals(email)) {
             user.setPassword(newPassword);
             userRepository.save(user);
             return "New Password set successfully";
