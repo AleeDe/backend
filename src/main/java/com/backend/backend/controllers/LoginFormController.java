@@ -8,6 +8,7 @@ import com.backend.backend.services.LoginService;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,16 +30,22 @@ public class LoginFormController {
     @PostMapping
     public ResponseEntity<String> isValidUser(@RequestBody LoginEntry entry) {
         String response = loginService.login(entry.getEmail(),entry.getPassword());
-        if (response.equals("Login Successful!")) {
-            return ResponseEntity.ok(response);
+        if (response != null) {
+            return  new ResponseEntity<>(response,HttpStatus.OK);
         }
         else{
-            return ResponseEntity.badRequest().body(response);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
     @PutMapping("/{id}")
-    public String ResetPassword(@PathVariable ObjectId id, @RequestBody LoginEntry updatedEntry) {
-        return loginService.ForgotPassword(updatedEntry.getEmail(), updatedEntry.getPassword());
+    public ResponseEntity<String> ResetPassword(@PathVariable ObjectId id, @RequestBody LoginEntry updatedEntry) {
+        String response = loginService.ForgotPassword(updatedEntry.getEmail(), updatedEntry.getPassword());
+        if (response != null) {
+            return new ResponseEntity<>(response,HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
     
 }

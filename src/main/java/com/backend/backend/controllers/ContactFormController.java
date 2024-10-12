@@ -1,6 +1,7 @@
 package com.backend.backend.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,6 @@ public class ContactFormController {
     @PostMapping
     public ResponseEntity<String> saveContactResponse(@RequestBody ContactFormEntry newEntry){
         String response = contactService.saveMessage(newEntry);
-        return ResponseEntity.ok(response);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 }

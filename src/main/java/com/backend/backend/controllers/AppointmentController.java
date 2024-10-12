@@ -1,6 +1,7 @@
 package com.backend.backend.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,11 +19,11 @@ public class AppointmentController {
     @PostMapping
     public ResponseEntity<String> saveUserAppointment(@RequestBody AppointmentEntry newEntry){
         String response = appointmentService.saveAppointment(newEntry);
-        if (response.equals("Appointment Booked Successfully")) {
-            return ResponseEntity.ok(response);
+        if (response != null) {
+            return new ResponseEntity<>(response,HttpStatus.CREATED);
         }
         else{
-            return ResponseEntity.badRequest().body(response);
+            return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
         }
     }
 }
